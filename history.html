@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        .history-container {
+            width: 85%;
+            min-height: 68vh;
+            border: 1px solid black;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            color: #121111;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #121111;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        th {
+            font-size: 20px;
+            background-color: #232222;
+            color: rgb(118, 116, 116);
+            padding: 7px;
+        }
+
+        tr:hover {
+            background-color: #393636;
+            color: white;
+        }
+
+        .delete-btn {
+            padding: 8px;
+            border: 1px solid red;
+            margin: 0px 7px;
+        }
+
+        .delete-btn:hover {
+            background-color: red;
+            color: white;
+        }
+
+        @media screen and (max-width:750px) {
+            th {
+
+                font-size: 10px;
+                padding: 5px 0px;
+            }
+
+            td {
+                font-size: 10px;
+
+            }
+
+            th:nth-child(1) {
+                display: none;
+            }
+
+            td:nth-child(1) {
+                display: none;
+            }
+
+            .delete-btn {
+                padding: 3px;
+                font-size: 10px;
+            }
+
+            .history-container {
+                width: 97%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <section  class="navbar-logo">
+            <img class="navbar-logo-image"
+                src="https://logos.textgiraffe.com/logos/logo-name/Maths-designstyle-boots-m.png"
+                alt="newton-school-logo">
+        </section>
+        <ul class="navbar-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" id="solution-link">Solution</a></li>
+            <li ><a href="#" id="history-link">History</a></li>
+            <li id="account-link"><a href="account.html">Account</a></li>
+        </ul>
+        </section>
+        <section class="navbar-menu">
+            <button class="navbar-menu-icon"><i class="fa-solid fa-bars"></i></button>
+        </section>
+    </nav>
+    <section class="history-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Operation</th>
+                    <th>Expression</th>
+                    <th>Result</th>
+                    <th>Delete</th>
+
+                </tr>
+            </thead>
+
+
+            <tbody class="history-container-body">
+                <!-- <tr>
+                    <td>1</td>
+                    <td>04-08-22</td>
+                    <td>simplify</td>
+                    <td>0 565615 545</td>
+                    <td>55645</td>
+                    <td><button id="delete-btn">Delete</button></td>
+                </tr> -->
+            </tbody>
+        </table>
+    </section>
+
+
+
+
+
+
+
+
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>Problems</p>
+                    <p>History</p>
+                    <p>Math</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Help</h3>
+                    <ul class="footer-section">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Coprights</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Maths.com. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+<script>
+    let historyContainer = document.querySelector(".history-container-body");
+    
+    let historyArr = JSON.parse(localStorage.getItem("problems"));
+
+    if (historyArr == null) {
+        historyArr = [];
+    }
+
+    createHistoryData(historyArr);
+
+    function createHistoryData(arr) {
+        arr.forEach(el => {
+            let tr = document.createElement("tr");
+            tr.setAttribute("id", el.id);
+            historyContainer.append(tr);
+            let date = new Date();
+
+            tr.innerHTML = `
+                    <td>${date.toDateString()}</td>
+                    <td>${el.operation.toUpperCase()}</td>
+                    <td>${el.expression}</td>
+                    <td>${el.result}</td>
+                    <td><button class="delete-btn">Delete</button></td>`
+        });
+    }
+
+
+    let delete_buttons = document.querySelectorAll(".delete-btn");
+    delete_buttons.forEach((el) => {
+        el.addEventListener('click', (e) => {
+            let id1 = e.target.parentNode.parentNode.getAttribute("id")
+            e.target.parentNode.parentNode.remove();
+            let newArray = historyArr.filter((element) => {
+                console.log(element)
+                if (element.id == id1) {
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+            localStorage.setItem("problems", JSON.stringify(newArray))
+            window.location.reload();
+        })
+    })
+</script>
+<script src="App.js"></script>
+</html>

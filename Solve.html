@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        body {
+            background-image: url("http://cdn.wallpapersafari.com/34/35/8JGmPt.jpg");
+            color: white;
+        }
+
+        .result {
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <section  class="navbar-logo">
+            <img class="navbar-logo-image"
+                src="https://logos.textgiraffe.com/logos/logo-name/Maths-designstyle-boots-m.png"
+                alt="newton-school-logo">
+        </section>
+        <ul class="navbar-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" id="solution-link">Solution</a></li>
+            <li ><a href="#" id="history-link">History</a></li>
+            <li id="account-link"><a href="account.html">Account</a></li>
+        </ul>
+        </section>
+        <section class="navbar-menu">
+            <button class="navbar-menu-icon"><i class="fa-solid fa-bars"></i></button>
+        </section>
+    </nav>
+    <div class="solve">
+
+
+        <section id="search-container">
+
+            <div>
+                <h1>Search Your Problem...</h1>
+                <div class="cont">
+                    <div id="expression-format">
+                        <h3>Expression Format : x^3 , 4^4 7(7) , 2^2+2(2) </h3>
+                        
+                    </div>
+                    <label for="">Problem</label>
+                    <input id="search-input" type="search" placeholder="Enter a problem...">
+                    <label for="">Select Category</label>
+                    <select name="" id="select-option">
+                        <option value="simplify">simplify</option>
+                        <option value="factor">factor</option>
+                        <option value="integrate">integrate</option>
+                        <option value="derive">derive</option>
+                        <option value="cos">cos</option>
+                        <option value="sin">sin</option>
+                        <option value="tan">tan</option>
+                        <option value="arccos">arccos</option>
+                        <option value="arcsin">arcsin</option>
+                        <option value="arctan">arctan</option>
+                        <option value="abs">abs</option>
+                    </select>
+                    <button id="search-btn">Search</button>
+                </div>
+            </div>
+            <div>
+                <h1>Result...</h1>
+                <div class="result">
+               
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>Problems</p>
+                    <p>History</p>
+                    <p>Math</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Help</h3>
+                    <ul class="footer-section">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Coprights</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Maths.com. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+<script src="App.js"></script>
+
+<script>
+    let searchInput = document.getElementById("search-input");
+    let searchOption = document.getElementById("select-option");
+    let searchBtn = document.getElementById("search-btn");
+    let resultContainer = document.querySelector(".result")
+    let baseUrl = `https://newton.vercel.app/api/v2/`;
+    let a = JSON.parse(localStorage.getItem("counter"));
+    let arr = JSON.parse(localStorage.getItem("problems"));
+    if (a == null) {
+        a = 0;
+    }
+    if (arr == null) {
+        arr = [];
+    }
+
+    searchBtn.addEventListener('click', () => {
+        let expression = encodeURIComponent(searchInput.value);
+
+        fetch(`${baseUrl}${searchOption.value}/${expression}`).then(res => res.json()).then((data) => {
+            createResult(data);
+            a++;
+            data.id = a;
+            arr.push(data);
+            localStorage.setItem("problems", JSON.stringify(arr));
+            localStorage.setItem("counter", JSON.stringify(a))
+        })
+
+    })
+
+    function createResult(data) {
+        resultContainer.innerHTML = `<h2>${data.operation.toUpperCase()} :-</h2>
+                 <h3>Expression : ${data.expression}</h3>
+                 <h3 style="color: green;">Solution : ${data.result}</h3>`
+    }
+</script>
+
+</html>

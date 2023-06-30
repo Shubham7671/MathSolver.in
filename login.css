@@ -1,0 +1,51 @@
+.account-container {
+    width: 60%;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7%;
+}
+
+.account-container>div {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #F5F5F5;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+}
+
+.account-container input {
+    padding: 10px;
+    width: 90%;
+}
+
+.account-container button {
+    background-color: green;
+    color: white;
+    padding: 10px;
+    width: 40%;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.social-container a {
+    border: 2px solid grey;
+    text-decoration: none;
+    color: black;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+@media screen and (max-width:750px) {
+    .account-container {
+        grid-template-columns: 100%;
+        width: 85%;
+        height: 900px;
+        gap: 15px;
+
+    }
+}
